@@ -8,7 +8,6 @@ import "hardhat-contract-sizer";
 import "hardhat-deploy";
 import "hardhat-gas-reporter";
 import "solidity-coverage";
-import "solidity-docgen";
 
 // This is done to have the new matchers from waffle,
 // because despite the note in https://hardhat.org/guides/waffle-testing.html?#adapting-the-tests
@@ -137,9 +136,6 @@ const config: HardhatUserConfig = {
     eachLine: removeConsoleLog(
       (hre) => !["hardhat", "localhost"].includes(hre.network.name)
     ),
-  },
-  docgen: {
-    pages: "files",
   },
   contractSizer: {
     alphaSort: true,
