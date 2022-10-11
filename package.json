@@ -1,5 +1,5 @@
 {
-  "name": "soliditymutableproxy",
+  "name": "soliditymutableproxy2",
   "version": "0.1.0",
   "description": "",
   "main": "index.js",
@@ -7,13 +7,12 @@
     "build": "tsc",
     "test": "hardhat test",
     "typechain": "TS_NODE_TRANSPILE_ONLY=true hardhat --config ./hardhat.base.config.ts typechain",
-    "compile": "npm run typechain && hardhat compile && hardhat docgen && rm -r -f src/typechain && mv typechain src/",
+    "compile": "npm run typechain && hardhat compile && rm -r -f src/typechain && mv typechain src/",
     "hardhat:node": "hardhat node --no-deploy",
     "eslint": "eslint src test",
     "lint": "eslint src test"
   },
   "dependencies": {
-    "solidity-docgen": "^0.6.0-beta.10",
     "winston": "^3.3.3",
     "web3-eth-abi": "1.7.3",
     "ethers": "5.6.8"
