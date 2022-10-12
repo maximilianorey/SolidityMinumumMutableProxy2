@@ -4,6 +4,7 @@ import { ethers, Wallet } from "ethers";
 
 import { ProxyController__factory } from "./ControllerContract/ProxyController__factory";
 import { BasicProxy__factory } from "./typechain/factories/BasicProxy__factory";
+import { BasicUpgradeable__factory } from "./typechain/factories/BasicUpgradeable__factory";
 import { ERC20P__factory } from "./typechain/factories/ERC20P__factory";
 
 dotenv.config({ path: "./.env" });
@@ -15,19 +16,31 @@ const provider = new ethers.providers.JsonRpcProvider({
 async function run() {
   const wallet = Wallet.fromMnemonic(process.env.mnemonic!).connect(provider);
 
+  const zeppelingUpgradeableFactory = new BasicUpgradeable__factory(wallet);
+
+  const zeppelingUpgradeable = await zeppelingUpgradeableFactory.deploy();
+
+  await zeppelingUpgradeable.init();
+
   const erc20Factory = new ERC20P__factory(wallet);
   const erc20 = await erc20Factory.deploy();
 
   const basicProxyFactory = new BasicProxy__factory(wallet);
   const basicProxyAddr = (
-    await basicProxyFactory.deploy(wallet.address, erc20.address)
+    await basicProxyFactory.deploy(
+      "0x0000000000000000000000000000000000000001",
+      erc20.address
+    )
   ).address;
 
   const controllerFactory = new ProxyController__factory(wallet);
   const controller = await controllerFactory.deploy();
 
   const tx = await (
-    await controller.createProxy(wallet.address, erc20.address)
+    await controller.createProxy(
+      "0x0000000000000000000000000000000000000001",
+      erc20.address
+    )
   ).wait();
 
   const myProxyAddr = tx.events![0].args![0];
@@ -39,6 +52,12 @@ async function run() {
   console.log("\tWITHOUT PROXY");
   console.log(
     `\t\t${(await erc20.estimateGas.mint(wallet.address, "20")).toString()}`
+  );
+  console.log("\tZEPPELING UPGRADEABLE");
+  console.log(
+    `\t\t${(
+      await zeppelingUpgradeable.estimateGas.mint(wallet.address, "20")
+    ).toString()}`
   );
   console.log("\tOPEN ZEPELLING PROXY");
   console.log(
@@ -52,6 +71,7 @@ async function run() {
   );
 
   await erc20.mint(wallet.address, "20");
+  await zeppelingUpgradeable.mint(wallet.address, "20");
   await basicProxy.mint(wallet.address, "20");
   await myProxy.mint(wallet.address, "20");
 
@@ -60,6 +80,15 @@ async function run() {
   console.log(
     `\t\t${(
       await erc20.estimateGas.transfer(
+        "0x0000000000000000000000000000000000000001",
+        "15"
+      )
+    ).toString()}`
+  );
+  console.log("\tZEPPELING UPGRADEABLE");
+  console.log(
+    `\t\t${(
+      await zeppelingUpgradeable.estimateGas.transfer(
         "0x0000000000000000000000000000000000000001",
         "15"
       )
@@ -85,6 +114,10 @@ async function run() {
   );
 
   await erc20.transfer("0x0000000000000000000000000000000000000001", "15");
+  await zeppelingUpgradeable.transfer(
+    "0x0000000000000000000000000000000000000001",
+    "15"
+  );
   await basicProxy.transfer("0x0000000000000000000000000000000000000001", "15");
   await myProxy.transfer("0x0000000000000000000000000000000000000001", "15");
 
@@ -93,6 +126,15 @@ async function run() {
   console.log(
     `\t\t${(
       await erc20.estimateGas.transfer(
+        "0x0000000000000000000000000000000000000001",
+        "5"
+      )
+    ).toString()}`
+  );
+  console.log("\tZEPPELING UPGRADEABLE");
+  console.log(
+    `\t\t${(
+      await zeppelingUpgradeable.estimateGas.transfer(
         "0x0000000000000000000000000000000000000001",
         "5"
       )
