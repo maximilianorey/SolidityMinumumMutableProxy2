@@ -22,7 +22,6 @@ describe("MutableProxy", function () {
     const proxyAddr = tx.events![0].args![0];
 
     const erc20P = ERC20P__factory.connect(proxyAddr, wallet);
-    await (await erc20P.init()).wait();
 
     expect((await erc20P.balanceOf(wallet.address)).isZero()).to.be.equal(true);
     await (await erc20P.mint(wallet.address, "1000000000000000000")).wait();
@@ -47,7 +46,7 @@ describe("MutableProxy", function () {
       ).toString()
     ).to.be.equal("500000000000000000");
 
-    expect(await erc20P.name()).to.be.equal("HELLO");
+    expect(await erc20P.something()).to.be.equal("HELLO");
 
     const erc20_2_instance = await (
       await ethers.getContractFactory("ERC20_P_2")
@@ -64,7 +63,7 @@ describe("MutableProxy", function () {
     expect(txSI.events![0].args![0]).to.be.equal(erc20P.address);
     expect(txSI.events![0].args![1]).to.be.equal(erc20_2_instance.address);
 
-    expect(await erc20P.name()).to.be.equal("ANOTHER NAME");
+    expect(await erc20P.something()).to.be.equal("ANOTHER NAME");
 
     expect((await erc20P.balanceOf(wallet.address)).toString()).to.be.equal(
       "500000000000000000"

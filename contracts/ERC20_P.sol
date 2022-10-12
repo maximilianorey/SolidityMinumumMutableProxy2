@@ -1,16 +1,16 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.0;
 
-import '@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol';
+import '@openzeppelin/contracts/token/ERC20/ERC20.sol';
 
-contract ERC20_P is ERC20Upgradeable{
-    function init() initializer external {
-        __ERC20_init("HELLO","H");
-    }
-    function init2(string memory name, string memory symbol) initializer external {
-        __ERC20_init(name,symbol);
-    }
+contract ERC20_P is ERC20{
+    constructor() ERC20("HELLO","H"){}
+
     function mint(address account, uint256 amount) public{
         _mint(account, amount);
+    }
+
+    function something() pure public returns (string memory){
+        return "HELLO";
     }
 }

@@ -48,7 +48,6 @@ contract Test{
         address proxyDirection = controller.createProxy(address(this), erc20);
 
         ERC20_P proxy = ERC20_P(proxyDirection);
-        proxy.init();
 
         require(controller.getOwner(proxyDirection)==address(this),"TEST NOT PASS");        
         require(controller.getImplementation(proxyDirection)==erc20,"TEST NOT PASS");
@@ -64,13 +63,13 @@ contract Test{
 
         require(proxy.balanceOf(address(this))==15,"BALANCE SHOULD BE 0");
 
-        require(compareStrings(proxy.name(),"HELLO"));
+        require(compareStrings(proxy.something(),"HELLO"));
 
         address erc20_2 = address(new ERC20_P_2());
 
         controller.setImplementation(proxyDirection, erc20_2);
 
         require(proxy.balanceOf(address(this))==15,"BALANCE SHOULD BE 0");
-        require(compareStrings(proxy.name(),"ANOTHER NAME"));
+        require(compareStrings(proxy.something(),"ANOTHER NAME"));
     }
 }
