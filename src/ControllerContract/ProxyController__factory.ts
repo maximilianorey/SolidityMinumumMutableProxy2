@@ -12,7 +12,7 @@
     0x30 // ADDRSS(this)
     0x61
     0x02
-    0x78 // DIRECTION OF CONTROLLER ADDRESS IN PROXY
+    0x70 // DIRECTION OF CONTROLLER ADDRESS IN PROXY
     0x52 // MSTORE
     0xF3 // RETURN
     0x34 // -----BEGIN CONTROLLER----- callValue
@@ -22,17 +22,11 @@
     0x57 // JUMPI
     0x36 //CALLDATASIZE
     0x60
-    0x13 // DIRECTION OF JUMPI 1
+    0x0D // DIRECTION OF JUMPI 1
     0x57 //JUMPI
     0x33 // MSG.CALLER
     0x54 // SLOAD (GET IMPL)
-    0x60
-    0x00 // PUSH 0
-    0x52 // MSTORE
-    0x60
-    0x20 //PUSH 32
-    0x60
-    0x00 // PUSH 0
+    0x80 //DUP1(ADDR)
     0xF3 // RETURN
     0x5B // DEST JUMPI 1
     0x60
@@ -49,7 +43,7 @@
     0x61 // PUSH getOwner(address)
     0x14 // EQ
     0x60
-    0x59 // DIRECTION OF JUMPI GET OWNER
+    0x53 // DIRECTION OF JUMPI GET OWNER
     0x57 //JUMPI
     0x80 // DUP1 (FUNCTION NAME)
     0x63
@@ -59,7 +53,7 @@
     0xca // PUSH getImplementation(address)
     0x14 // EQ
     0x60
-    0x7D // DIRECTION OF JUMPI GET IMPLEMENTATION
+    0x77 // DIRECTION OF JUMPI GET IMPLEMENTATION
     0x57 //JUMPI
     0x80 // DUP1 (FUNCTION NAME)
     0x63
@@ -70,7 +64,7 @@
     0x14 // EQ
     0x61
     0x01
-    0x4C // DIRECTION OF JUMPI createProxy
+    0x46 // DIRECTION OF JUMPI createProxy
     0x57 //JUMPI
     0x80 // DUP1 (FUNCTION NAME)
     0x63
@@ -80,7 +74,7 @@
     0xcc // PUSH setOwner(address,address)
     0x14 // EQ
     0x60
-    0x8A // DIRECTION OF JUMPI SET OWNER
+    0x84 // DIRECTION OF JUMPI SET OWNER
     0x57 //JUMPI
     0x80 // DUP1 (FUNCTION NAME)
     0x63
@@ -90,14 +84,14 @@
     0xb4 // PUSH setImplementation(address,address)
     0x14 // EQ
     0x60
-    0xEA // DIRECTION OF JUMPI SET IMPLEMENTATION
+    0xE4 // DIRECTION OF JUMPI SET IMPLEMENTATION
     0x57 //JUMPI
     0x60 // BEGIN FUNCTION NOT EXISTS
     0x38 // LENGTH ERROR MESSAGE
     0x80 // DUP1 (LENGTH ERROR MESSAGE)
     0x61
     0x02
-    0x2D // OFFSET (DIRECTION FUNCTION NOT EXISTS)
+    0x27 // OFFSET (DIRECTION FUNCTION NOT EXISTS)
     0x60
     0x00 // DST OFFSET
     0x39 // CODECOPY
@@ -185,7 +179,7 @@
     0x33 // CALLER
     0x14 // EQ
     0x60
-    0xB8 // PUSH DIRECTION OF JUMPI CALLER IS THE OWNER (SET OWNER)
+    0xB2 // PUSH DIRECTION OF JUMPI CALLER IS THE OWNER (SET OWNER)
     0x57 //JUMPI
     0x60
     0x3C // LENGTH ERROR CALLER IS NOT THE OWNER
@@ -284,7 +278,7 @@
     0x14 // EQ
     0x61
     0x01
-    0x1B // PUSH DIRECTION OF JUMPI CALLER IS THE OWNER (SET IMPLEMENTATION)
+    0x0E // PUSH DIRECTION OF JUMPI CALLER IS THE OWNER (SET IMPLEMENTATION)
     0x57 //JUMPI
     0x60
     0x3C // LENGTH ERROR CALLER IS NOT THE OWNER
@@ -353,7 +347,7 @@
     0x80 // DUP1 (LENGTH OF PROXY CODE)
     0x61
     0x02
-    0x65 // PUSH DIRECTION OF PROXY CODE
+    0x5F // PUSH DIRECTION OF PROXY CODE
     0x60
     0x00 // PUSH 0
     0x39 // CODECOPY
@@ -640,11 +634,9 @@
     0x00 // PUSH 0
     0xF3 // RETURN
     0x60 // -----BEGIN PROXY CODE-----
-    0x20 // PUSH 20 (RET LENGTH)
-    0x60
-    0x00 // PUSH 0 (RET OFFSET)
-    0x60
-    0x00 // PUSH 0 (ARGS LENGTH)
+    0x00 // PUSH 0 (RET LENGTH)
+    0x80 // DUP1 (0) (RET OFFSET)
+    0x80 // DUP1 (0) (ARGS LENGTH)
     0x80 // DUP1 (0) (ARGS OFFSET)
     0x7F // push32. The following zeros will be overwritten by the address of controller
     0x00 // CONTROLLER ADDRESS IN PROXY
@@ -681,9 +673,7 @@
     0x00
     0x5A // GAS
     0xFA // STATIC CALL
-    0x60
-    0x00 // PUSH 0
-    0x51 // MLOAD
+    0x3D // RETURNDATASIZE (HACK)
     0x36 // call data size
     0x60
     0x00 // PUSH 0
