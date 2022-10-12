@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -b",
     "test": "npm run compile && hardhat test",
     "typechain": "TS_NODE_TRANSPILE_ONLY=true hardhat --config ./hardhat.base.config.ts typechain",
     "compile": "npm run typechain && hardhat compile && rm -r -f src/typechain && mv typechain src/",
@@ -15,7 +15,8 @@
   "dependencies": {
     "winston": "^3.3.3",
     "web3-eth-abi": "1.7.3",
-    "ethers": "5.6.8"
+    "ethers": "5.7.1",
+    "@ethersproject/providers": "5.7.1"
   },
   "devDependencies": {
     "@atixlabs/hardhat-time-n-mine": "0.0.5",
