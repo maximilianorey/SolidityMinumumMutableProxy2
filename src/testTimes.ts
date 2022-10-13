@@ -9,9 +9,41 @@ import { ERC20P__factory } from "./typechain/factories/ERC20P__factory";
 
 dotenv.config({ path: "./.env" });
 
-const provider = new ethers.providers.JsonRpcProvider({
-  url: "http://localhost:8545",
-});
+let provider: ethers.providers.BaseProvider =
+  new ethers.providers.JsonRpcProvider({
+    url: "http://localhost:8545",
+  });
+
+if (process.argv[2] === "binance") {
+  provider = new ethers.providers.JsonRpcProvider({
+    url: "https://data-seed-prebsc-2-s2.binance.org:8545",
+  });
+} else if (process.argv[2] === "goerli") {
+  provider = ethers.providers.getDefaultProvider("goerli");
+} else if (process.argv[2] === "sepolia") {
+  provider = ethers.providers.getDefaultProvider("sepolia");
+} else if (process.argv[2] === "mumbai") {
+  provider = new ethers.providers.JsonRpcProvider({
+    url: "https://rpc-mumbai.matic.today",
+  });
+} else if (process.argv[2] === "rsk") {
+  provider = new ethers.providers.JsonRpcProvider({
+    url: "https://public-node.testnet.rsk.co",
+  });
+} else if (process.argv[2] === "fantom") {
+  provider = new ethers.providers.JsonRpcProvider({
+    url: "https://rpc.testnet.fantom.network/",
+  });
+} else if (process.argv[2] === "avalanche") {
+  provider = new ethers.providers.JsonRpcProvider({
+    url: "https://api.avax-test.network/ext/bc/C/rpc",
+  });
+} else if (process.argv[2] !== undefined) {
+  console.error("INVALID NETWORK");
+  process.exit(1);
+}
+
+ethers.providers.getDefaultProvider();
 
 async function run() {
   const wallet = Wallet.fromMnemonic(process.env.mnemonic!).connect(provider);
