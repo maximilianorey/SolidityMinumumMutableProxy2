@@ -59,7 +59,7 @@ async function run() {
 
   const zeppelingUpgradeable = await zeppelingUpgradeableFactory.deploy();
 
-  await zeppelingUpgradeable.init();
+  await (await zeppelingUpgradeable.init()).wait();
 
   const erc20Factory = new ERC20P__factory(wallet);
   const erc20 = await erc20Factory.deploy();
