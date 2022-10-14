@@ -19,7 +19,14 @@ if (process.argv[2] === "binance") {
     url: "https://data-seed-prebsc-2-s2.binance.org:8545",
   });
 } else if (process.argv[2] === "goerli") {
-  provider = ethers.providers.getDefaultProvider("goerli");
+  if (!process.env.goerli_api_key) {
+    console.error("GOERLI API KEY NOT CONFIGURED");
+    process.exit(1);
+  }
+  provider = new ethers.providers.AlchemyProvider(
+    "goerli",
+    process.env.goerli_api_key
+  );
 } else if (process.argv[2] === "sepolia") {
   provider = ethers.providers.getDefaultProvider("sepolia");
 } else if (process.argv[2] === "mumbai") {
