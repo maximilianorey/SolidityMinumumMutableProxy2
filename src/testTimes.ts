@@ -5,7 +5,7 @@ import { ethers, Wallet } from "ethers";
 import { ProxyController__factory } from "./ControllerContract/ProxyController__factory";
 import { BasicProxy__factory } from "./typechain/factories/BasicProxy__factory";
 import { BasicUpgradeable__factory } from "./typechain/factories/BasicUpgradeable__factory";
-import { ERC20I__factory } from "./typechain/factories/ERC20I__factory";
+import { ERC20Imp__factory } from "./typechain/factories/ERC20Imp__factory";
 
 dotenv.config({ path: "./.env" });
 
@@ -61,7 +61,7 @@ async function run() {
 
   await (await zeppelingUpgradeable.init()).wait();
 
-  const erc20Factory = new ERC20I__factory(wallet);
+  const erc20Factory = new ERC20Imp__factory(wallet);
   const erc20 = await erc20Factory.deploy();
 
   const basicProxyFactory = new BasicProxy__factory(wallet);
@@ -84,8 +84,8 @@ async function run() {
 
   const myProxyAddr = tx.events![0].args![0];
 
-  const basicProxy = ERC20I__factory.connect(basicProxyAddr, wallet);
-  const myProxy = ERC20I__factory.connect(myProxyAddr, wallet);
+  const basicProxy = ERC20Imp__factory.connect(basicProxyAddr, wallet);
+  const myProxy = ERC20Imp__factory.connect(myProxyAddr, wallet);
 
   console.log("MINT 20");
   console.log("\tWITHOUT PROXY");
