@@ -109,10 +109,10 @@ async function run() {
     `\t\t${(await myProxy.estimateGas.mint(wallet.address, "20")).toString()}`
   );
 
-  await erc20.mint(wallet.address, "20");
-  await zeppelingUpgradeable.mint(wallet.address, "20");
-  await basicProxy.mint(wallet.address, "20");
-  await myProxy.mint(wallet.address, "20");
+  await (await erc20.mint(wallet.address, "20")).wait();
+  await (await zeppelingUpgradeable.mint(wallet.address, "20")).wait();
+  await (await basicProxy.mint(wallet.address, "20")).wait();
+  await (await myProxy.mint(wallet.address, "20")).wait();
 
   console.log("TRANSFER PART:");
   console.log("\tWITHOUT PROXY");
@@ -152,13 +152,24 @@ async function run() {
     ).toString()}`
   );
 
-  await erc20.transfer("0x0000000000000000000000000000000000000001", "15");
-  await zeppelingUpgradeable.transfer(
-    "0x0000000000000000000000000000000000000001",
-    "15"
-  );
-  await basicProxy.transfer("0x0000000000000000000000000000000000000001", "15");
-  await myProxy.transfer("0x0000000000000000000000000000000000000001", "15");
+  await (
+    await erc20.transfer("0x0000000000000000000000000000000000000001", "15")
+  ).wait();
+  await (
+    await zeppelingUpgradeable.transfer(
+      "0x0000000000000000000000000000000000000001",
+      "15"
+    )
+  ).wait();
+  await (
+    await basicProxy.transfer(
+      "0x0000000000000000000000000000000000000001",
+      "15"
+    )
+  ).wait();
+  await (
+    await myProxy.transfer("0x0000000000000000000000000000000000000001", "15")
+  ).wait();
 
   console.log("TRANSFER TOTAL");
   console.log("\tWITHOUT PROXY");
