@@ -1,8 +1,8 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 import "./DummyProxyController.sol";
-import "./ERC20_P.sol";
-import "./ERC20_P_2.sol";
+import "./ERC20_I.sol";
+import "./ERC20_I_2.sol";
 
 contract Test{
     function compareStrings(string memory a, string memory b) private pure returns (bool) {
@@ -43,11 +43,11 @@ contract Test{
         require(controller.getOwner(address(1))==address(0),"TEST NOT PASS");        
         require(controller.getImplementation(address(1))==address(0),"TEST NOT PASS");
 
-        address erc20 = address(new ERC20_P());
+        address erc20 = address(new ERC20_I());
 
         address proxyDirection = controller.createProxy(address(this), erc20);
 
-        ERC20_P proxy = ERC20_P(proxyDirection);
+        ERC20_I proxy = ERC20_I(proxyDirection);
 
         require(controller.getOwner(proxyDirection)==address(this),"TEST NOT PASS");        
         require(controller.getImplementation(proxyDirection)==erc20,"TEST NOT PASS");
@@ -65,7 +65,7 @@ contract Test{
 
         require(compareStrings(proxy.something(),"HELLO"));
 
-        address erc20_2 = address(new ERC20_P_2());
+        address erc20_2 = address(new ERC20_I_2());
 
         controller.setImplementation(proxyDirection, erc20_2);
 

@@ -13,7 +13,7 @@ describe("MutableProxy", function () {
     const controllerFactory = new ProxyController__factory(wallet);
     const controller = await controllerFactory.deploy();
 
-    const erc20_1 = await (await ethers.getContractFactory("ERC20_P")).deploy();
+    const erc20_1 = await (await ethers.getContractFactory("ERC20_I")).deploy();
 
     const tx = await (
       await controller.createProxy(wallet.address, erc20_1.address)
@@ -49,7 +49,7 @@ describe("MutableProxy", function () {
     expect(await erc20P.something()).to.be.equal("HELLO");
 
     const erc20_2_instance = await (
-      await ethers.getContractFactory("ERC20_P_2")
+      await ethers.getContractFactory("ERC20_I_2")
     ).deploy();
 
     const txSI = await (

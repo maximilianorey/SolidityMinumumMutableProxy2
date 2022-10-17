@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 
 import '@openzeppelin/contracts/token/ERC20/ERC20.sol';
 
-contract ERC20_P_2 is ERC20{
+contract ERC20_I_2 is ERC20{
     constructor() ERC20("HELLO","H"){}
 
     function mint(address account, uint256 amount) public{
