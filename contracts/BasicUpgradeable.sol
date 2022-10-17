@@ -6,7 +6,7 @@ import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
 
 contract BasicUpgradeable is ERC20Upgradeable{
     function init() public initializer{
-        __ERC20_init("HELLO", "H");
+        __ERC20Init("HELLO", "H");
     }
 
     function mint(address addr, uint256 amount) public{
