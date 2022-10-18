@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc -b",
-    "test": "npm run compile && hardhat test",
+    "test": "hardhat test",
     "typechain": "TS_NODE_TRANSPILE_ONLY=true hardhat --config ./hardhat.base.config.ts typechain",
     "compile": "npm run typechain && hardhat compile && rm -r -f src/typechain && mv typechain src/",
     "hardhat:node": "hardhat node --no-deploy",

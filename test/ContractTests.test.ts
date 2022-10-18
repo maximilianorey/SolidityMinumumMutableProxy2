@@ -4,7 +4,6 @@ import { Contract } from "ethers";
 import { ethers } from "hardhat";
 
 import { ProxyController__factory } from "../src/ControllerContract/ProxyController__factory";
-import { ERC20Imp__factory } from "../src/typechain";
 
 describe("MutableProxy", function () {
   it("Should deploy a proxy with controller and call to transparent functions of proxy, and later change implementation", async function () {
@@ -13,9 +12,8 @@ describe("MutableProxy", function () {
     const controllerFactory = new ProxyController__factory(wallet);
     const controller = await controllerFactory.deploy();
 
-    const erc20_1 = await (
-      await ethers.getContractFactory("ERC20Imp")
-    ).deploy();
+    const erc20Factory = await ethers.getContractFactory("ERC20Imp");
+    const erc20_1 = await erc20Factory.deploy();
 
     const tx = await (
       await controller.createProxy(wallet.address, erc20_1.address)
@@ -23,7 +21,7 @@ describe("MutableProxy", function () {
 
     const proxyAddr = tx.events![0].args![0];
 
-    const ERC20Imp = ERC20Imp__factory.connect(proxyAddr, wallet);
+    const ERC20Imp = erc20Factory.attach(proxyAddr);
 
     expect((await ERC20Imp.balanceOf(wallet.address)).isZero()).to.be.equal(
       true
