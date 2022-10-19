@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/no-duplicate-string */
 import { expect } from "chai";
 import { Contract } from "ethers";
 import { ethers } from "hardhat";
@@ -18,6 +17,10 @@ describe("MutableProxy", function () {
     const tx = await (
       await controller.createProxy(wallet.address, erc20_1.address)
     ).wait();
+
+    expect(tx.events![0].event).to.be.equal("ContractCreated");
+    expect(tx.events![0].args![1]).to.be.equal(wallet.address);
+    expect(tx.events![0].args![2]).to.be.equal(erc20_1.address);
 
     const proxyAddr = tx.events![0].args![0];
 
