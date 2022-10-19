@@ -24,34 +24,32 @@ describe("MutableProxy", function () {
 
     const proxyAddr = tx.events![0].args![0];
 
-    const ERC20Imp = erc20Factory.attach(proxyAddr);
+    const proxy = erc20Factory.attach(proxyAddr);
 
-    expect((await ERC20Imp.balanceOf(wallet.address)).isZero()).to.be.equal(
-      true
-    );
-    await (await ERC20Imp.mint(wallet.address, "1000000000000000000")).wait();
-    expect((await ERC20Imp.balanceOf(wallet.address)).toString()).to.be.equal(
+    expect((await proxy.balanceOf(wallet.address)).isZero()).to.be.equal(true);
+    await (await proxy.mint(wallet.address, "1000000000000000000")).wait();
+    expect((await proxy.balanceOf(wallet.address)).toString()).to.be.equal(
       "1000000000000000000"
     );
 
     await (
-      await ERC20Imp.transfer(
+      await proxy.transfer(
         "0x0000000000000000000000000000000000000001",
         "500000000000000000"
       )
     ).wait();
 
-    expect((await ERC20Imp.balanceOf(wallet.address)).toString()).to.be.equal(
+    expect((await proxy.balanceOf(wallet.address)).toString()).to.be.equal(
       "500000000000000000"
     );
 
     expect(
       (
-        await ERC20Imp.balanceOf("0x0000000000000000000000000000000000000001")
+        await proxy.balanceOf("0x0000000000000000000000000000000000000001")
       ).toString()
     ).to.be.equal("500000000000000000");
 
-    expect(await ERC20Imp.something()).to.be.equal("HELLO");
+    expect(await proxy.something()).to.be.equal("HELLO");
 
     const erc20_2_instance = await (
       await ethers.getContractFactory("ERC20Imp_2")
@@ -59,24 +57,24 @@ describe("MutableProxy", function () {
 
     const txSI = await (
       await controller.setImplementation(
-        ERC20Imp.address,
+        proxy.address,
         erc20_2_instance.address
       )
     ).wait();
 
     expect(txSI.events![0].event!).to.be.equal("ImplementationChanged");
-    expect(txSI.events![0].args![0]).to.be.equal(ERC20Imp.address);
+    expect(txSI.events![0].args![0]).to.be.equal(proxy.address);
     expect(txSI.events![0].args![1]).to.be.equal(erc20_2_instance.address);
 
-    expect(await ERC20Imp.something()).to.be.equal("ANOTHER NAME");
+    expect(await proxy.something()).to.be.equal("ANOTHER NAME");
 
-    expect((await ERC20Imp.balanceOf(wallet.address)).toString()).to.be.equal(
+    expect((await proxy.balanceOf(wallet.address)).toString()).to.be.equal(
       "500000000000000000"
     );
 
     expect(
       (
-        await ERC20Imp.balanceOf("0x0000000000000000000000000000000000000001")
+        await proxy.balanceOf("0x0000000000000000000000000000000000000001")
       ).toString()
     ).to.be.equal("500000000000000000");
 
@@ -107,7 +105,7 @@ describe("MutableProxy", function () {
 
     await expect(
       invalidContract.invalidF(
-        ERC20Imp.address,
+        proxy.address,
         "0x0000000000000000000000000000000000000001"
       )
     ).to.be.revertedWith("FUNCTION NOT EXISTS");
@@ -139,7 +137,7 @@ describe("MutableProxy", function () {
 
     await expect(
       payableContract.setOwner(
-        ERC20Imp.address,
+        proxy.address,
         "0x0000000000000000000000000000000000000001",
         { value: "20" }
       )
@@ -147,27 +145,27 @@ describe("MutableProxy", function () {
 
     const txCO = await (
       await controller.setOwner(
-        ERC20Imp.address,
+        proxy.address,
         "0x0000000000000000000000000000000000000001"
       )
     ).wait();
 
     expect(txCO.events![0].event!).to.be.equal("OwnerChanged");
-    expect(txCO.events![0].args![0]).to.be.equal(ERC20Imp.address);
+    expect(txCO.events![0].args![0]).to.be.equal(proxy.address);
     expect(txCO.events![0].args![1]).to.be.equal(
       "0x0000000000000000000000000000000000000001"
     );
 
     await expect(
       controller.setOwner(
-        ERC20Imp.address,
+        proxy.address,
         "0x0000000000000000000000000000000000000001"
       )
     ).to.be.revertedWith("CALLER IS NOT THE OWNER");
 
     await expect(
       controller.setImplementation(
-        ERC20Imp.address,
+        proxy.address,
         "0x0000000000000000000000000000000000000001"
       )
     ).to.be.revertedWith("CALLER IS NOT THE OWNER");
