@@ -59,7 +59,6 @@ ethers.providers.getDefaultProvider();
 
 async function run() {
   const wallet = Wallet.fromMnemonic(process.env.mnemonic!).connect(provider);
-  console.log(await wallet.getBalance());
 
   const zeppelingUpgradeableFactory = new BasicUpgradeable__factory(wallet);
 
