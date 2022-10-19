@@ -15,6 +15,13 @@ describe("MutableProxy", function () {
     const erc20Factory = await ethers.getContractFactory("ERC20Imp");
     const erc20_1 = await erc20Factory.deploy();
 
+    await expect(
+      controller.createProxy(
+        wallet.address,
+        "0x0000000000000000000000000000000000000001"
+      )
+    ).to.be.revertedWith("NOT VALID CONTRACT");
+
     const tx = await (
       await controller.createProxy(wallet.address, erc20_1.address)
     ).wait();
@@ -53,6 +60,13 @@ describe("MutableProxy", function () {
     const erc20_2_instance = await (
       await ethers.getContractFactory("ERC20Imp_2")
     ).deploy();
+
+    await expect(
+      controller.setImplementation(
+        ERC20Imp.address,
+        "0x0000000000000000000000000000000000000001"
+      )
+    ).to.be.revertedWith("NOT VALID CONTRACT");
 
     const txSI = await (
       await controller.setImplementation(
@@ -142,6 +156,14 @@ describe("MutableProxy", function () {
       )
     ).to.be.revertedWith("NOT PAYABLE FUNCTION");
 
+    await expect(
+      controller.setImplementation(proxyAddr, proxyAddr)
+    ).to.be.revertedWith("IMPLEMENTATION IS A PROXY");
+
+    await expect(
+      controller.createProxy(wallet.address, proxyAddr)
+    ).to.be.revertedWith("IMPLEMENTATION IS A PROXY");
+
     const txCO = await (
       await controller.setOwner(
         ERC20Imp.address,
@@ -163,10 +185,7 @@ describe("MutableProxy", function () {
     ).to.be.revertedWith("CALLER IS NOT THE OWNER");
 
     await expect(
-      controller.setImplementation(
-        ERC20Imp.address,
-        "0x0000000000000000000000000000000000000001"
-      )
+      controller.setImplementation(ERC20Imp.address, erc20_1.address)
     ).to.be.revertedWith("CALLER IS NOT THE OWNER");
   });
 });
