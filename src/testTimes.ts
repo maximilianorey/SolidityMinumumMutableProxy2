@@ -30,9 +30,14 @@ if (process.argv[2] === "binance") {
 } else if (process.argv[2] === "sepolia") {
   provider = ethers.providers.getDefaultProvider("sepolia");
 } else if (process.argv[2] === "mumbai") {
-  provider = new ethers.providers.JsonRpcProvider({
-    url: "https://rpc-mumbai.matic.today",
-  });
+  if (!process.env.mumbai_api_key) {
+    console.error("MUMBAI API KEY NOT CONFIGURED");
+    process.exit(1);
+  }
+  provider = new ethers.providers.AlchemyProvider(
+    "maticmum",
+    process.env.mumbai_api_key
+  );
 } else if (process.argv[2] === "rsk") {
   provider = new ethers.providers.JsonRpcProvider({
     url: "https://public-node.testnet.rsk.co",
@@ -54,6 +59,7 @@ ethers.providers.getDefaultProvider();
 
 async function run() {
   const wallet = Wallet.fromMnemonic(process.env.mnemonic!).connect(provider);
+  console.log(await wallet.getBalance());
 
   const zeppelingUpgradeableFactory = new BasicUpgradeable__factory(wallet);
 
