@@ -11,13 +11,13 @@
     0x39 // CODECOPY
     0x61
     0x03
-    0x21 // DIRECTION OF CONTROLLER ADDRESS IN PROXY
+    0x21 // DIRECTION OF CONTROLLER ADDRESS IN PROXY - 12
     0x51 // MLOAD
     0x30 // ADDRSS(this)
     0x17 // OR
     0x61
     0x03
-    0x21 // DIRECTION OF CONTROLLER ADDRESS IN PROXY
+    0x21 // DIRECTION OF CONTROLLER ADDRESS IN PROXY - 12
     0x52 // MSTORE
     0xF3 // RETURN
     0x36 //CALLDATASIZE -----BEGIN CONTROLLER----- 
@@ -821,7 +821,7 @@
     0x60
     0x0B // CONTRUCTOR LENGTH
     0x60
-    0x00 // PUSH 0 // CONTROLLER ADDRESS IN PROXY
+    0x00 // PUSH 0 
     0x39 // CODECOPY
     0x60
     0x00 // PUSH 0
@@ -833,7 +833,7 @@
     0x80 // DUP1 (0) (ARGS LENGTH)
     0x80 // DUP1 (0) (ARGS OFFSET)
     0x73 // push20. The following zeros will be overwritten by the address of controller
-    0x00 
+    0x00 // CONTROLLER ADDRESS IN PROXY
     0x00
     0x00
     0x00
