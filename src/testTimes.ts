@@ -119,6 +119,33 @@ async function run() {
   await (await basicProxy.mint(wallet.address, "20")).wait();
   await (await myProxy.mint(wallet.address, "20")).wait();
 
+  console.log("MINT 20");
+  console.log("\tWITHOUT PROXY");
+  console.log(
+    `\t\t${(await erc20.estimateGas.mint(wallet.address, "20")).toString()}`
+  );
+  console.log("\tZEPPELING UPGRADEABLE");
+  console.log(
+    `\t\t${(
+      await zeppelingUpgradeable.estimateGas.mint(wallet.address, "20")
+    ).toString()}`
+  );
+  console.log("\tOPEN ZEPELLING PROXY");
+  console.log(
+    `\t\t${(
+      await basicProxy.estimateGas.mint(wallet.address, "20")
+    ).toString()}`
+  );
+  console.log("\tMY PROXY");
+  console.log(
+    `\t\t${(await myProxy.estimateGas.mint(wallet.address, "20")).toString()}`
+  );
+
+  await (await erc20.mint(wallet.address, "20")).wait();
+  await (await zeppelingUpgradeable.mint(wallet.address, "20")).wait();
+  await (await basicProxy.mint(wallet.address, "20")).wait();
+  await (await myProxy.mint(wallet.address, "20")).wait();
+
   console.log("TRANSFER PART:");
   console.log("\tWITHOUT PROXY");
   console.log(
