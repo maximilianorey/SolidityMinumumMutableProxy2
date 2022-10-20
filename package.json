@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc -b",
-    "testTimes": "ts-node ./src/testTimes.ts",
+    "test-times": "ts-node ./src/testTimes.ts",
     "test": "hardhat test",
     "typechain": "TS_NODE_TRANSPILE_ONLY=true hardhat --config ./hardhat.base.config.ts typechain",
     "compile": "npm run typechain && hardhat compile && rm -r -f src/typechain && mv typechain src/",
