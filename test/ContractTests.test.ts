@@ -186,10 +186,7 @@ describe("MutableProxy", function () {
     ).to.be.revertedWith("CALLER IS NOT THE OWNER");
 
     await expect(
-      controller.setImplementation(
-        proxy.address,
-        "0x0000000000000000000000000000000000000001"
-      )
+      controller.setImplementation(proxy.address, erc20_1.address)
     ).to.be.revertedWith("CALLER IS NOT THE OWNER");
   });
 });
