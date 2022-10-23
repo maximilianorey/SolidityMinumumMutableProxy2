@@ -1,6 +1,6 @@
 import "@openzeppelin/hardhat-upgrades";
 
-import { expect } from "chai";
+import chai, { expect } from "chai";
 import { solidity } from "ethereum-waffle";
 import { Contract } from "ethers";
 import { ethers } from "hardhat";
