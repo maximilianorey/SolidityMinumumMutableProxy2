@@ -7,12 +7,8 @@ import "solidity-coverage";
 // This is done to have the new matchers from waffle,
 // because despite the note in https://hardhat.org/guides/waffle-testing.html?#adapting-the-tests
 // the changeEtherBalance is not added because its a newer version
-import chai from "chai";
 import dotenv from "dotenv";
-import { solidity } from "ethereum-waffle";
 import { HardhatUserConfig } from "hardhat/config";
-
-chai.use(solidity);
 
 dotenv.config({ path: "./.env" });
 
