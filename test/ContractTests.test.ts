@@ -1,8 +1,13 @@
-import { expect } from "chai";
+import "@openzeppelin/hardhat-upgrades";
+
+import chai, { expect } from "chai";
+import { solidity } from "ethereum-waffle";
 import { Contract } from "ethers";
 import { ethers } from "hardhat";
 
 import { ProxyController__factory } from "../src/ControllerContract/ProxyController__factory";
+
+chai.use(solidity);
 
 describe("MutableProxy", function () {
   it("Should deploy a proxy with controller and call to transparent functions of proxy, and later change implementation", async function () {
