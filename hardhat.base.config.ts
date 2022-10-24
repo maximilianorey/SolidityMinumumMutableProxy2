@@ -4,12 +4,8 @@ import "hardhat-deploy";
 import "hardhat-gas-reporter";
 import "solidity-coverage";
 
-import chai from "chai";
 import dotenv from "dotenv";
-import { solidity } from "ethereum-waffle";
 import { HardhatUserConfig } from "hardhat/config";
-
-chai.use(solidity);
 
 dotenv.config({ path: "./.env" });
 
