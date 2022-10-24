@@ -4,9 +4,6 @@ import "hardhat-deploy";
 import "hardhat-gas-reporter";
 import "solidity-coverage";
 
-// This is done to have the new matchers from waffle,
-// because despite the note in https://hardhat.org/guides/waffle-testing.html?#adapting-the-tests
-// the changeEtherBalance is not added because its a newer version
 import chai from "chai";
 import dotenv from "dotenv";
 import { solidity } from "ethereum-waffle";
@@ -32,7 +29,6 @@ const config: HardhatUserConfig = {
         count: 40,
       },
       chainId: 31337,
-      blockGasLimit: 30000000, // 30M polygon block gas limit
     },
   },
   defaultNetwork: "hardhat",
@@ -45,7 +41,6 @@ const config: HardhatUserConfig = {
   solidity: {
     version: "0.8.7",
     settings: {
-      // https://hardhat.org/hardhat-network/#solidity-optimizer-support
       optimizer: {
         enabled: true,
         runs: 200,
